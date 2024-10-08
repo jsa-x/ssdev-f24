@@ -1,0 +1,27 @@
+#Select Main DB
+USE keyboard_store;
+
+
+# SQL for creating user's
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    password VARCHAR(255)
+);
+
+#Creating SQL for prducts page
+CREATE TABLE products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    image_url VARCHAR(255) NOT NULL
+);
+
+#Insert Prodcts to products
+INSERT INTO products (name, description, price, image_url) VALUES
+('Mechanical Keyboard 1', 'A high-quality mechanical keyboard.', 99.99, 'https://via.placeholder.com/300x200'),
+('Mechanical Keyboard 2', 'A sleek and compact keyboard.', 79.99, 'https://via.placeholder.com/300x200'),
+('Mechanical Keyboard 3', 'A customizable keyboard with RGB.', 129.99, 'https://via.placeholder.com/300x200'),
+('Mechanical Keyboard 4', 'An ergonomic mechanical keyboard.', 149.99, 'https://via.placeholder.com/300x200');

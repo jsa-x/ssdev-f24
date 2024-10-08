@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% extends "base.html" %}
+
+    {% block title %}Dashboard{% endblock %}
+    <!-- <title>User Dashboard</title> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+<body>
+    {% block content %}
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Welcome, {{ user.username }}</h1>
+            <p class="subtitle">Your email: {{ user.email }}</p>
+
+            <div class="box">
+                <h2 class="title is-4">Your Recent Orders</h2>
+                <p>Order history functionality will go here...</p>
+            </div>
+
+            <div class="box">
+                <h2 class="title is-4">Your Cart</h2>
+                <a href="{{ url_for('cart') }}" class="button is-primary">View Cart</a>
+            </div>
+
+            <div class="box">
+                <a href="{{ url_for('logout') }}" class="button is-danger">Logout</a>
+            </div>
+        </div>
+    </section>
+    {% endblock %}
+</body>
+</html>

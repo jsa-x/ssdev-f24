@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% extends "base.html" %}
+
+{% block title %}Your Profile{% endblock %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+<body>
+    {% block content %}
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Your Profile</h1>
+
+            <div class="box">
+                <p><strong>Username:</strong> {{ user.username }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+            </div>
+
+            <!-- Add edit functionality or other options -->
+            <a href="{{ url_for('dashboard') }}" class="button is-link">Back to Dashboard</a>
+        </div>
+    </section>
+</body>
+{% endblock %}
+</html>

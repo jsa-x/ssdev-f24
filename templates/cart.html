@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% extends "base.html" %}
+
+{% block title %}Your Shopping Cart{% endblock %}
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+{% block content %}
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Your Cart</h1>
+
+            {% if cart_items %}
+                <table class="table is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                        <tr>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>${{ item.price }}</td>
+                            <td>${{ item.price * item.quantity }}</td>
+                            <td>
+                                <form action="{{ url_for('remove_from_cart', product_id=item.id) }}" method="POST">
+                                    <button class="button is-danger" type="submit">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <h2 class="title is-4">Total: ${{ total }}</h2>
+                <button class="button is-primary">Proceed to Checkout</button>
+            {% else %}
+                <p>Your cart is empty.</p>
+            {% endif %}
+        </div>
+    </section>
+</body>
+{% endblock %}
+</html>
