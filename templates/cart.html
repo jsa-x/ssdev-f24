@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% extends "base.html" %}
+    <title>Your Shopping Cart</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+{% extends "base.html" %}
 
 {% block title %}Your Shopping Cart{% endblock %}
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-</head>
 {% block content %}
-<body>
-    <section class="section">
-        <div class="container">
-            <h1 class="title">Your Cart</h1>
+<section class="section">
+    <div class="container">
+        <!-- Page Title -->
+        <h1 class="title has-text-centered">Your Cart</h1>
 
-            {% if cart_items %}
-                <table class="table is-fullwidth">
+        {% if cart_items %}
+            <!-- Cart Table -->
+            <div class="table-container">
+                <table class="table is-fullwidth is-striped">
                     <thead>
                         <tr>
                             <th>Product</th>
@@ -31,25 +34,35 @@
                         <tr>
                             <td>{{ item.name }}</td>
                             <td>{{ item.quantity }}</td>
-                            <td>${{ item.price }}</td>
-                            <td>${{ item.price * item.quantity }}</td>
+                            <td>${{ "%.2f" | format(item.price) }}</td>
+                            <td>${{ "%.2f" | format(item.price * item.quantity) }}</td>
                             <td>
                                 <form action="{{ url_for('remove_from_cart', product_id=item.id) }}" method="POST">
-                                    <button class="button is-danger" type="submit">Remove</button>
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button class="button is-danger is-small" type="submit">Remove</button>
                                 </form>
                             </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
+            </div>
 
-                <h2 class="title is-4">Total: ${{ total }}</h2>
-                <button class="button is-primary">Proceed to Checkout</button>
-            {% else %}
+            <!-- Total Price -->
+            <h2 class="title is-4 has-text-right">Total: ${{ "%.2f" | format(total) }}</h2>
+
+            <!-- Checkout Button -->
+            <div class="buttons is-right">
+                <a href="{{ url_for('checkout') }}" class="button is-primary">Proceed to Checkout</a>
+            </div>
+        {% else %}
+            <!-- Empty Cart Message -->
+            <div class="notification is-warning has-text-centered">
                 <p>Your cart is empty.</p>
-            {% endif %}
-        </div>
-    </section>
-</body>
+                <p><a href="{{ url_for('catalog') }}" class="has-text-link">Browse products</a> to add items to your cart.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
 {% endblock %}
 </html>

@@ -1,21 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% extends "base.html" %}
+{% extends "base.html" %}
 
-    {% block title %}Checkout{% endblock %}
+{% block title %}Checkout{% endblock %}
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-</head>
 {% block content %}
-<body>
-    <section class="section">
-        <div class="container">
-            <h1 class="title">Checkout</h1>
-            
-            {% if cart_items %}
+<section class="section">
+    <div class="container">
+        <!-- Title -->
+        <h1 class="title has-text-centered">Checkout</h1>
+
+        {% if cart_items %}
+        <!-- Cart Table -->
+        <div class="table-container">
             <table class="table is-fullwidth">
                 <thead>
                     <tr>
@@ -30,25 +25,30 @@
                     <tr>
                         <td>{{ item.name }}</td>
                         <td>{{ item.quantity }}</td>
-                        <td>${{ item.price }}</td>
-                        <td>${{ item.price * item.quantity }}</td>
+                        <td>${{ "%.2f" | format(item.price) }}</td>
+                        <td>${{ "%.2f" | format(item.price * item.quantity) }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-
-            <h2 class="title is-4">Total: ${{ total }}</h2>
-
-            <!-- Confirm Order Form -->
-            <form action="{{ url_for('confirm_order') }}" method="POST">
-                <button class="button is-primary" type="submit">Confirm Order</button>
-            </form>
-
-            {% else %}
-            <p>Your cart is empty.</p>
-            {% endif %}
         </div>
-    </section>
-</body>
+
+        <!-- Total Price -->
+        <h2 class="title is-4">Total: ${{ "%.2f" | format(total) }}</h2>
+
+        <!-- Confirm Order Form -->
+        <form action="{{ url_for('confirm_order') }}" method="POST" class="mt-4">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="button is-primary is-fullwidth" type="submit">Confirm Order</button>
+        </form>
+
+        {% else %}
+        <!-- Empty Cart Message -->
+        <div class="notification is-warning has-text-centered">
+            <p>Your cart is empty.</p>
+            <p><a href="{{ url_for('catalog') }}" class="has-text-link">Browse products</a> to add items to your cart.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
 {% endblock %}
-</html>

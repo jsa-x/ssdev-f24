@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Your Wishlist{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1 class="title">Your Wishlist</h1>
+
+        {% if wishlist_items %}
+            <div class="columns is-multiline">
+                {% for item in wishlist_items %}
+                <div class="column is-one-quarter">
+                    <div class="card is-hoverable">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="{{ item.image_url }}" alt="Product image">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <p class="title is-4">{{ item.name }}</p>
+                            <p class="subtitle is-6">${{ item.price }}</p>
+                            <form action="{{ url_for('remove_from_wishlist', product_id=item.id) }}" method="POST">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button class="button is-danger is-light" type="submit">Remove</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Your wishlist is empty. <a href="{{ url_for('catalog') }}" class="has-text-link">Browse products</a> to add items to your wishlist.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

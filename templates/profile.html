@@ -1,28 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block title %}Your Profile{% endblock %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-</head>
-<body>
-    {% block content %}
-    <section class="section">
-        <div class="container">
-            <h1 class="title">Your Profile</h1>
 
-            <div class="box">
-                <p><strong>Username:</strong> {{ user.username }}</p>
-                <p><strong>Email:</strong> {{ user.email }}</p>
+{% block content %}
+<section class="section">
+    <div class="container">
+        <!-- Page Title -->
+        <h1 class="title has-text-centered">Your Profile</h1>
+
+        <!-- Profile Details Section -->
+        <div class="columns is-centered">
+            <div class="column is-half">
+                <div class="box has-text-centered">
+                    <!-- Profile Picture (Optional) -->
+                    <figure class="image is-128x128 is-inline-block">
+                        <img class="is-rounded" src="{{ user.profile_picture_url or 'default_profile.png' }}" alt="Profile Picture">
+                    </figure>
+
+                    <!-- User Details -->
+                    <p class="mt-4"><strong>Username:</strong> {{ user.username }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                </div>
             </div>
-
-            <!-- Add edit functionality or other options -->
-            <a href="{{ url_for('dashboard') }}" class="button is-link">Back to Dashboard</a>
         </div>
-    </section>
-</body>
+
+        <!-- Action Buttons -->
+        <div class="buttons is-centered">
+            <a href="{{ url_for('edit_profile') }}" class="button is-link">
+                <span class="icon"><i class="fas fa-edit"></i></span>
+                <span>Edit Profile</span>
+            </a>
+            <a href="{{ url_for('dashboard') }}" class="button is-primary">
+                <span class="icon"><i class="fas fa-arrow-left"></i></span>
+                <span>Back to Dashboard</span>
+            </a>
+        </div>
+    </div>
+</section>
 {% endblock %}
-</html>

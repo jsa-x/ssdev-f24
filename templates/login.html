@@ -5,23 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+        /* Custom style to center and control the form size */
+        .full-height {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .form-container {
+            max-width: 400px;
+            width: 100%;
+            padding: 2rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .password-toggle {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <section class="section">
-        <div class="container">
-            <h1 class="title">Login</h1>
+    <section class="section full-height">
+        <div class="container form-container">
+            <!-- Page Title -->
+            <h1 class="title has-text-centered">Login</h1>
 
+            <!-- Flash Messages -->
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
-                    <div class="notification is-danger">
-                        {% for category, message in messages %}
+                    {% for category, message in messages %}
+                        <div class="notification {{ 'is-' + category if category in ['success', 'danger', 'info', 'warning'] else 'is-light' }}">
+                            <button class="delete" onclick="this.parentElement.style.display='none';"></button>
                             <p>{{ message }}</p>
-                        {% endfor %}
-                    </div>
+                        </div>
+                    {% endfor %}
                 {% endif %}
             {% endwith %}
 
+            <!-- Login Form -->
             <form action="{{ url_for('login') }}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                
                 <div class="field">
                     <label class="label">Username</label>
                     <div class="control">
@@ -31,21 +61,42 @@
             
                 <div class="field">
                     <label class="label">Password</label>
-                    <div class="control">
-                        <input class="input" type="password" name="password" placeholder="Enter your password" required>
+                    <div class="control has-icons-right">
+                        <input class="input" id="password" type="password" name="password" placeholder="Enter your password" required>
+                        <span class="icon is-small is-right password-toggle" onclick="togglePasswordVisibility()">
+                            <i class="fas fa-eye"></i>
+                        </span>
                     </div>
                 </div>
             
                 <div class="field">
                     <div class="control">
-                        <button class="button is-primary" type="submit">Login</button>
+                        <button class="button is-primary is-fullwidth" type="submit">Login</button>
                     </div>
                 </div>
             </form>
             
-            
-            <p class="mt-4">Don't have an account? <a href="{{ url_for('register') }}">Register here</a>.</p>
+            <!-- Redirect to Registration -->
+            <p class="mt-4 has-text-centered">
+                Don't have an account? <a href="{{ url_for('register') }}">Register here</a>.
+            </p>
         </div>
     </section>
+
+    <script>
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const icon = document.querySelector('.password-toggle i');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+    </script>
 </body>
 </html>

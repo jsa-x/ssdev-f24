@@ -1,30 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ product.name }}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-</head>
-<body>
-    <section class="section">
-        <div class="container">
-            <h1 class="title">{{ product.name }}</h1>
-            <div class="columns">
-                <div class="column is-half">
-                    <figure class="image is-4by3">
-                        <img src="{{ product.image_url }}" alt="Product image">
-                    </figure>
-                </div>
-                <div class="column is-half">
-                    <p class="subtitle">{{ product.description }}</p>
-                    <p class="title is-4">{{ product.price }}</p>
-                    <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST">
-                        <button class="button is-primary" type="submit">Add to Cart</button>
-                    </form>                                     
-                </div>
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <!-- Product Title -->
+        <h1 class="title">{{ product.name }}</h1>
+
+        <!-- Product Details -->
+        <div class="columns is-mobile">
+            <!-- Product Image -->
+            <div class="column is-half">
+                <figure class="image is-4by3">
+                    <img src="{{ product.image_url }}" alt="Image of {{ product.name }}">
+                </figure>
+            </div>
+
+            <!-- Product Info -->
+            <div class="column is-half">
+                <p class="subtitle">{{ product.description }}</p>
+                <p class="title is-4">${{ product.price }}</p>
+
+                <!-- Stock Information (Optional) -->
+                {% if product.in_stock %}
+                    <p class="tag is-success">In Stock</p>
+                {% else %}
+                    <p class="tag is-danger">Out of Stock</p>
+                {% endif %}
+
+                <!-- Add to Cart Form -->
+                <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST" style="margin-bottom: 10px;">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="button is-primary is-fullwidth" type="submit">
+                        <span class="icon"><i class="fas fa-shopping-cart"></i></span>
+                        <span>Add to Cart</span>
+                    </button>
+                </form>
+
+                <!-- Add to Wishlist Form -->
+                <form action="{{ url_for('add_to_wishlist', product_id=product.id) }}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="button is-link is-fullwidth" type="submit">
+                        <span class="icon"><i class="fas fa-heart"></i></span>
+                        <span>Add to Wishlist</span>
+                    </button>
+                </form>
             </div>
         </div>
-    </section>
-</body>
-</html>
+    </div>
+</section>
+{% endblock %}

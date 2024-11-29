@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Users{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1 class="title">Manage Users</h1>
+        <table class="table is-fullwidth">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user[0] }}</td>
+                    <td>{{ user[1] }}</td>
+                    <td>{{ user[2] }}</td>
+                    <td>{{ user[3] }}</td>
+                    <td>
+                        <form action="{{ url_for('update_role', user_id=user[0]) }}" method="POST">
+                            <div class="select">
+                                <select name="new_role">
+                                    <option value="user" {% if user[3] == 'user' %}selected{% endif %}>User</option>
+                                    <option value="admin" {% if user[3] == 'admin' %}selected{% endif %}>Admin</option>
+                                    <option value="editor" {% if user[3] == 'editor' %}selected{% endif %}>Editor</option>
+                                </select>
+                            </div>
+                            <button class="button is-primary" type="submit">Update Role</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

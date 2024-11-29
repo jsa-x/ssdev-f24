@@ -5,12 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+        /* Center and style the form */
+        .full-height {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .form-container {
+            max-width: 320px; /* Compact form size */
+            width: 100%;
+            padding: 2rem;
+            border: 1px solid #ddd; /* Card-like border */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+        }
+    </style>
 </head>
 <body>
-    <section class="section">
-        <div class="container">
-            <h1 class="title">Register</h1>
+    <section class="section full-height">
+        <div class="container form-container">
+            <!-- Title -->
+            <h1 class="title has-text-centered">Register</h1>
 
+            <!-- Flash messages -->
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     <div class="notification is-danger">
@@ -21,7 +40,11 @@
                 {% endif %}
             {% endwith %}
 
+            <!-- Registration Form -->
             <form action="{{ url_for('register') }}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                
+                <!-- Username -->
                 <div class="field">
                     <label class="label">Username</label>
                     <div class="control">
@@ -29,6 +52,7 @@
                     </div>
                 </div>
 
+                <!-- Email -->
                 <div class="field">
                     <label class="label">Email</label>
                     <div class="control">
@@ -36,6 +60,7 @@
                     </div>
                 </div>
 
+                <!-- Password -->
                 <div class="field">
                     <label class="label">Password</label>
                     <div class="control">
@@ -43,14 +68,30 @@
                     </div>
                 </div>
 
+                <!-- Submit Button -->
                 <div class="field">
                     <div class="control">
-                        <button class="button is-primary" type="submit">Register</button>
+                        <button class="button is-primary is-fullwidth" type="submit">Register</button>
                     </div>
                 </div>
             </form>
 
-            <p class="mt-4">Already have an account? <a href="{{ url_for('login') }}">Login here</a>.</p>
+            <!-- Password Requirements -->
+            <div class="notification is-info mt-4">
+                <p><strong>Passwords must meet the following requirements:</strong></p>
+                <ul>
+                    <li>Minimum 8 characters</li>
+                    <li>At least one uppercase letter</li>
+                    <li>At least one lowercase letter</li>
+                    <li>At least one number</li>
+                    <li>At least one special character</li>
+                </ul>
+            </div>
+
+            <!-- Login Redirect -->
+            <p class="mt-4 has-text-centered">
+                Already have an account? <a href="{{ url_for('login') }}">Login here</a>.
+            </p>
         </div>
     </section>
 </body>
