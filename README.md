@@ -41,28 +41,28 @@ The **Keyboard Store Web Application** is a Flask-based project designed to simu
    
 ## Deployment Instructions
 
-Database Configuration:
-Create a MySQL database:
-CREATE DATABASE keyboard_store;
-Import the provided schema:
-mysql -u <username> -p keyboard_store < schema.sql
-Environment Variables: Set up a config.py file with the following:
-MYSQL_HOST = 'localhost'
-MYSQL_USER = 'root'
-MYSQL_PASSWORD = 'your_password'
-MYSQL_DB = 'keyboard_store'
-SECRET_KEY = 'your_secret_key'
-Running Locally
-
+ ** Database Configuration:**
+  1. Create a MySQL database:
+  2. CREATE DATABASE keyboard_store;
+  **Import the provided schema:**
+  1. mysql -u <username> -p keyboard_store < schema.sql
+  **Environment Variables: Set up a config.py file with the following:**
+  1. MYSQL_HOST = 'localhost'
+  2. MYSQL_USER = 'root'
+  3. MYSQL_PASSWORD = 'your_password'
+  4. MYSQL_DB = 'keyboard_store'
+  5. SECRET_KEY = 'your_secret_key'
+  
+  **Running Locally**
 **Clone the repository:**
-git clone https://github.com/jsa-x/dga-utrgv24.git
-cd keyboard_store
+1. git clone https://github.com/jsa-x/dga-utrgv24.git
+2. cd keyboard_store
 **Start the Redis server:**
-redis-server
+1. redis-server
 **Run the application:**
-flask run
+1. flask run
 **Access the app:**
-Visit http://127.0.0.1:5000 in your browser.
+1. Visit http://127.0.0.1:5000 in your browser.
 
 **Prerequisites for server**
 A Linux server Ubuntu 20.04 or later
