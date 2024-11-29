@@ -1,0 +1,6 @@
+Flask==2.2.3
+Flask-MySQLdb==1.0.1
+Werkzeug==2.2.3
+flask-wtf==1.0.1
+Flask-Limiter==2.13
+redis==5.0.0
